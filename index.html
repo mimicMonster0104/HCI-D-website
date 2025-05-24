@@ -338,14 +338,84 @@
         grid-template-columns: 1fr;
       }
       
+      /* Tab按鈕優化 - 提高可讀性和點擊體驗 */
       .tabs-nav {
-        gap: 0.5rem;
+        gap: 0.3rem;
         padding: 0.8rem;
+        /* 添加滑動提示 */
+        background: linear-gradient(90deg, 
+          rgba(249, 168, 38, 0.1) 0%, 
+          rgba(249, 168, 38, 0.05) 10%, 
+          rgba(249, 168, 38, 0.05) 90%, 
+          rgba(249, 168, 38, 0.1) 100%);
       }
       
       .tab-btn {
-        font-size: 0.8rem;
-        padding: 0.5rem 0.8rem;
+        font-size: 0.75rem;
+        padding: 0.6rem 1rem;
+        min-width: 120px; /* 確保按鈕有足夠的點擊區域 */
+        text-align: center;
+        border-radius: 25px;
+        /* 更明顯的視覺區分 */
+        background-color: rgba(255, 255, 255, 0.8);
+        border: 1px solid rgba(249, 168, 38, 0.3);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+      
+      .tab-btn.active {
+        min-width: 130px; /* active狀態稍微寬一點 */
+        font-weight: 600;
+        transform: scale(1.02);
+      }
+      
+      /* 滑動提示增強 */
+      .tabs-container::before,
+      .tabs-container::after {
+        width: 30px;
+        top: 0.8rem;
+        bottom: 0.8rem;
+        z-index: 15;
+      }
+      
+      .tabs-container::before {
+        background: linear-gradient(to right, 
+          rgba(249, 168, 38, 0.15), 
+          rgba(249, 168, 38, 0.1), 
+          transparent);
+      }
+      
+      .tabs-container::after {
+        background: linear-gradient(to left, 
+          rgba(249, 168, 38, 0.15), 
+          rgba(249, 168, 38, 0.1), 
+          transparent);
+      }
+      
+      /* PDF閱讀體驗優化 */
+      .tab-content iframe {
+        height: 300px !important; /* 手機上降低高度，避免過度拉伸 */
+        border-radius: 4px;
+      }
+      
+      /* 為PDF提供專門的手機版提示 */
+      .pdf-mobile-hint {
+        display: block !important;
+        background-color: rgba(249, 168, 38, 0.1);
+        padding: 1rem;
+        border-radius: 8px;
+        margin-bottom: 1rem;
+        border-left: 4px solid var(--primary-color);
+      }
+      
+      .pdf-mobile-hint p {
+        margin: 0;
+        font-size: 0.9rem;
+        color: var(--text-color);
+      }
+      
+      /* needfinding部分的PDF卡片優化 */
+      .cards-container iframe {
+        height: 250px !important;
       }
       
       /* 原型階段響應式設計 */
@@ -370,6 +440,22 @@
       
       .prototype-display {
         padding: 1.5rem;
+      }
+      
+      /* 按鈕和連結優化 */
+      .btn {
+        padding: 1rem 1.5rem; /* 更大的點擊區域 */
+        font-size: 1rem;
+        min-height: 48px; /* 符合觸控標準 */
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+      }
+      
+      .download-jump-btn {
+        width: 100%;
+        max-width: 280px;
+        margin: 0 auto;
       }
     }
     
@@ -649,6 +735,90 @@
     .download-jump-btn span {
       font-size: 1.2em;
     }
+    
+    /* PDF手機版提示樣式 - 默認隱藏 */
+    .pdf-mobile-hint {
+      display: none;
+    }
+    
+    /* 手機版滑動提示動畫 */
+    @keyframes slideHint {
+      0%, 100% { transform: translateX(0); }
+      50% { transform: translateX(10px); }
+    }
+    
+    .tabs-nav-wrapper {
+      position: relative;
+    }
+    
+    .scroll-hint {
+      position: absolute;
+      right: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      background-color: var(--primary-color);
+      color: white;
+      padding: 0.3rem 0.6rem;
+      border-radius: 20px;
+      font-size: 0.7rem;
+      animation: slideHint 2s infinite;
+      pointer-events: none;
+      z-index: 20;
+      display: none;
+    }
+    
+    /* 手機版觸控優化 */
+    .feature-grid {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+    
+    .feature-item {
+      padding: 1.5rem;
+      min-height: auto;
+    }
+    
+    /* 所有可點擊元素的最小觸控區域 */
+    a, button, .tab-btn, .stage-item {
+      min-height: 44px; /* iOS Human Interface Guidelines */
+      min-width: 44px;
+    }
+    
+    /* 手機版card間距優化 */
+    .cards-container {
+      gap: 1.5rem;
+    }
+    
+    .card {
+      margin-bottom: 0;
+    }
+    
+    /* 手機版文字大小調整 */
+    .hero p {
+      font-size: 1.1rem;
+    }
+    
+    .card-content h3 {
+      font-size: 1.3rem;
+    }
+    
+    .card-content p {
+      font-size: 1rem;
+      line-height: 1.6;
+    }
+    
+    /* 手機版圖片優化 */
+    .image-container img {
+      width: 100%;
+      height: auto;
+    }
+    
+    /* 手機版影片優化 */
+    video {
+      width: 100% !important;
+      max-width: 100% !important;
+      height: auto !important;
+    }
   </style>
 </head>
 <body>
@@ -670,7 +840,7 @@
     
     <section class="hero">
       <div class="hero-content">
-        <h1>為寶可夢卡片收藏家創造更便捷的直接購買體驗</h1>
+        <h1>為寶可夢卡片收藏家創造更便捷的購買體驗</h1>
         <p>PTCGFinder 是一款多語言支援的卡片比價應用，整合多個市場平台的價格資訊，讓收藏家能夠輕鬆找到最佳交易並做出明智的購買決策。</p>
         <a href="#features" class="btn">了解功能特色</a>
       </div>
@@ -814,7 +984,7 @@
         
         <div class="card" style="border-left: 5px solid var(--secondary-color);">
           <div class="card-content">
-            <h3>如何我們可能... (HMW)</h3>
+            <h3>HOW MIGHT WE</h3>
             <ul style="list-style: none; padding: 0;">
               <li style="margin-bottom: 1rem; padding: 0.8rem; background: rgba(139, 35, 21, 0.1); border-radius: 8px;">
                 <strong>🌐 HMW 統一多語言資訊？</strong><br>
@@ -843,6 +1013,9 @@
           <div class="card-content">
             <h3>📋 需求探索報告</h3>
             <p>完整的用戶研究過程與發現</p>
+            <div class="pdf-mobile-hint">
+              <p>📱 <strong>手機閱讀提示：</strong>點擊下方「點擊此處下載PDF」連結以獲得更好的閱讀體驗</p>
+            </div>
             <div style="margin-top: 1rem;">
               <iframe src="slides/team3_01_needfinding.pdf" width="100%" height="400" style="border: none; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
                 <p>您的瀏覽器不支援PDF顯示。<a href="slides/team3_01_needfinding.pdf" target="_blank">點擊此處下載PDF</a></p>
@@ -855,6 +1028,9 @@
           <div class="card-content">
             <h3>🎯 觀點陳述與HMW</h3>
             <p>將研究發現轉化為設計機會</p>
+            <div class="pdf-mobile-hint">
+              <p>📱 <strong>手機閱讀提示：</strong>點擊下方「點擊此處下載PDF」連結以獲得更好的閱讀體驗</p>
+            </div>
             <div style="margin-top: 1rem;">
               <iframe src="slides/team3_02_POV_HMW.pdf" width="100%" height="400" style="border: none; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
                 <p>您的瀏覽器不支援PDF顯示。<a href="slides/team3_02_POV_HMW.pdf" target="_blank">點擊此處下載PDF</a></p>
@@ -994,15 +1170,18 @@
       </div>
       
       <div class="tabs-container">
-        <div class="tabs-nav">
-          <div class="tab-indicator"></div>
-          <button class="tab-btn active" data-tab="low-fi">低保真原型</button>
-          <button class="tab-btn" data-tab="medium-fi-v1">中保真原型 v1</button>
-          <button class="tab-btn" data-tab="heuristic">啟發式評估</button>
-          <button class="tab-btn" data-tab="medium-fi-v2">中保真原型 v2</button>
-          <button class="tab-btn" data-tab="hi-fi-v1">高保真原型 v1</button>
-          <button class="tab-btn" data-tab="usability">可用性測試</button>
-          <button class="tab-btn" data-tab="hi-fi-v2">高保真原型 v2</button>
+        <div class="tabs-nav-wrapper">
+          <div class="scroll-hint">👈 可滑動</div>
+          <div class="tabs-nav">
+            <div class="tab-indicator"></div>
+            <button class="tab-btn active" data-tab="low-fi">低保真原型</button>
+            <button class="tab-btn" data-tab="medium-fi-v1">中保真原型 v1</button>
+            <button class="tab-btn" data-tab="heuristic">啟發式評估</button>
+            <button class="tab-btn" data-tab="medium-fi-v2">中保真原型 v2</button>
+            <button class="tab-btn" data-tab="hi-fi-v1">高保真原型 v1</button>
+            <button class="tab-btn" data-tab="usability">可用性測試</button>
+            <button class="tab-btn" data-tab="hi-fi-v2">高保真原型 v2</button>
+          </div>
         </div>
         
         <div class="tabs-content">
@@ -1011,6 +1190,9 @@
             <h3>低保真原型 (Assignment #3)</h3>
             <div class="assignment-content">
               <div class="slide-placeholder">
+                <div class="pdf-mobile-hint">
+                  <p>📱 <strong>手機閱讀提示：</strong>由於PDF在小螢幕上不易閱讀，建議點擊下方「點擊此處下載PDF」連結以獲得更好的閱讀體驗</p>
+                </div>
                 <iframe src="slides/team3_03_low_fi_prototype_slides.pdf" width="100%" height="600" style="border: none; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
                   <p>您的瀏覽器不支援PDF顯示。<a href="slides/team3_03_low_fi_prototype_slides.pdf" target="_blank">點擊此處下載PDF</a></p>
                 </iframe>
@@ -1040,6 +1222,9 @@
             <h3>中保真原型 v1 (Assignment #4)</h3>
             <div class="assignment-content">
               <div class="slide-placeholder">
+                <div class="pdf-mobile-hint">
+                  <p>📱 <strong>手機閱讀提示：</strong>由於PDF在小螢幕上不易閱讀，建議點擊下方「點擊此處下載PDF」連結以獲得更好的閱讀體驗</p>
+                </div>
                 <iframe src="slides/team3_04_medium_fi_prototype_slides.pdf" width="100%" height="600" style="border: none; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
                   <p>您的瀏覽器不支援PDF顯示。<a href="slides/team3_04_medium_fi_prototype_slides.pdf" target="_blank">點擊此處下載PDF</a></p>
                 </iframe>
@@ -1381,12 +1566,19 @@
       const tabContents = document.querySelectorAll('.tab-content');
       const tabIndicator = document.querySelector('.tab-indicator');
       const tabsNav = document.querySelector('.tabs-nav');
+      const scrollHint = document.querySelector('.scroll-hint');
       
       // 檢查是否需要滑動提示
       function checkScrollability() {
-        if (tabsNav.scrollWidth > tabsNav.clientWidth) {
-          // 添加滑動提示
-          tabsNav.style.position = 'relative';
+        if (window.innerWidth <= 768 && tabsNav.scrollWidth > tabsNav.clientWidth) {
+          // 在手機上顯示滑動提示
+          if (scrollHint) {
+            scrollHint.style.display = 'block';
+            // 3秒後自動隱藏提示
+            setTimeout(() => {
+              scrollHint.style.display = 'none';
+            }, 3000);
+          }
           
           // 短暫顯示滑動動畫提示
           setTimeout(() => {
@@ -1435,6 +1627,11 @@
           
           // 滑動到可見區域
           btn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+          
+          // 隱藏滑動提示
+          if (scrollHint) {
+            scrollHint.style.display = 'none';
+          }
         });
       });
       
@@ -1446,6 +1643,17 @@
           checkScrollability();
         }
       });
+      
+      // 手機上監聽滑動事件，首次滑動後隱藏提示
+      if (window.innerWidth <= 768) {
+        let hasScrolled = false;
+        tabsNav.addEventListener('scroll', () => {
+          if (!hasScrolled && scrollHint) {
+            scrollHint.style.display = 'none';
+            hasScrolled = true;
+          }
+        });
+      }
     });
     
     // 原型階段切換功能
